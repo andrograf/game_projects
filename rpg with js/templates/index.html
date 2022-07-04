@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First RPG Game</title>
+    <link rel="stylesheet" href="{{url_for('static' , filename='style.css')}}" type="text/css" title="Default styles" media="screen">
+
+</head>
+<body>
+    <div class="child"></div>
+    <div class="child" id="middle">
+        <canvas></canvas>
+        <script src="{{ url_for('static', filename='data'+'/collusion.js')}}"></script> <!--hamarabb kell meghívni, hogy tovább adódjanak a változók-->
+        <script src="{{ url_for('static', filename='classes.js')}}"></script>
+        <script src="{{ url_for('static', filename='index.js')}}"></script>
+        <div class="child" id="introduction"><p>Hi! This is an rpg <i><span id="red">Aka</span><span id="blue">Kuro</span></i> game, please enjoy! (still in alpha test phase)</p></div>
+        <div class="child" id="table">
+            <table>
+                <tr>
+                    <td><a href=#>Sources</a></td>
+                    <td><a href=#>About me</a></td>
+                    <td><a href=#>More AkaKuro on Facebook!</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class='child'></div>
+
+
+
+
+</body>
+</html>

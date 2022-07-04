@@ -57,6 +57,7 @@ class Boundery {
     }
     draw() {
         context.fillStyle = 'rgba(255,0,0,0.0)'
+        //context.fillStyle = 'red'
         context.fillRect(this.position.x,this.position.y, this.width,this.height) // collision megrajzolása, pirossal
     }
 }

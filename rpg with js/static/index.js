@@ -40,22 +40,22 @@ context.fillRect(0,0,canvas.width,canvas.height) // rect= rectengle, egy téglal
 // map és játékos beimportálása
 
 const image = new Image()
-image.src = 'images/pokemon_like_game.png' //map
+image.src = 'static/images/pokemon_like_game.png' //map
 
 const foreg_image = new Image()
-foreg_image.src = 'images/foreground.png' //map
+foreg_image.src = 'static/images/foreground.png' //map
 
 const playerImageDown = new Image()
-playerImageDown.src = 'images/playerKuroko180percent.png' //player movement Down
+playerImageDown.src = 'static/images/playerKuroko180percent.png' //player movement Down
                                    
 const playerImageUp = new Image()
-playerImageUp.src = 'images/playerKuroko180percentUp.png' //player movement Up
+playerImageUp.src = 'static/images/playerKuroko180percentUp.png' //player movement Up
 
 const playerImageLeft = new Image()
-playerImageLeft.src = 'images/playerKuroko180percentLeft.png' //player movement Left
+playerImageLeft.src = 'static/images/playerKuroko180percentLeft.png' //player movement Left
 
 const playerImageRight = new Image()
-playerImageRight.src = 'images/playerKuroko180percentRight.png' //player movement Right
+playerImageRight.src = 'static/images/playerKuroko180percentRight.png' //player movement Right
 
 
 // játékos mozgásának létrehozása
