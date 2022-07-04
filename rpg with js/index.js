@@ -15,7 +15,7 @@ for (let i = 0; i < collision.length; i+=60) {   // kétdimenziós collision lis
 const boundaries = []
 const offset = {
     x: -2335,
-    y: -750
+    y: -780
 }
 
 collisionMap.forEach((row,i) => {
@@ -45,15 +45,22 @@ image.src = 'images/pokemon_like_game.png' //map
 const foreg_image = new Image()
 foreg_image.src = 'images/foreground.png' //map
 
-const playerImage = new Image()
-playerImage.src = 'images/playerKuroko180percent.png' //player
+const playerImageDown = new Image()
+playerImageDown.src = 'images/playerKuroko180percent.png' //player movement Down
                                    
+const playerImageUp = new Image()
+playerImageUp.src = 'images/playerKuroko180percentUp.png' //player movement Up
 
+const playerImageLeft = new Image()
+playerImageLeft.src = 'images/playerKuroko180percentLeft.png' //player movement Left
+
+const playerImageRight = new Image()
+playerImageRight.src = 'images/playerKuroko180percentRight.png' //player movement Right
 
 
 // játékos mozgásának létrehozása
 
-// , // karakter megrajzolása. Gyorsabban töltődik be, mint a héttér, ezért egy betöltés alatt kell mindkettőnek lefutnia
+// karakter megrajzolása. Gyorsabban töltődik be, mint a héttér, ezért egy betöltés alatt kell mindkettőnek lefutnia
 
 
 
@@ -61,7 +68,13 @@ const background = new Sprite({position: {x: offset.x,y: offset.y},image:image})
 
 const foreground = new Sprite({position: {x: offset.x,y: offset.y},image:foreg_image})
 
-const player = new Sprite({position: {x: canvas.width/2-(231/4)/2, y: canvas.height/2},image: playerImage,frames:{max:4}})
+const player = new Sprite({position: {x: canvas.width/2-(160/4)/2, y: canvas.height/2-75/2},image: playerImageDown,frames:{max:4},
+    sprite_list: {
+        up: playerImageUp,
+        down: playerImageDown,
+        left: playerImageLeft,
+        right: playerImageRight
+    } })
 console.log(player)
 
 const keys = {            // billentyű kulcsok, alapértelmezetten false 
@@ -106,8 +119,11 @@ function animate() {
     
     // karakter pozíció váltása, billentyű eseménykor
     let moving = true
+    player.moving = false
     if (keys.w.pressed && lastKey === 'w')  {
         for (let i = 0; i < boundaries.length; i++) {
+            player.moving = true
+            player.image = player.sprites.up
             const boundary = boundaries[i]
             // ütközés létrehozása - a képernyőn való pozíció szerint
             if (rectengleCollision({rectengle1: player, rectengle2: {...boundary, position: {x: boundary.position.x, y: boundary.position.y+3} }})) {
@@ -115,10 +131,13 @@ function animate() {
                 break
         }
     } 
+    
     if (moving === true) {
     movables.forEach((movable) => movable.position.y += 3)}} // ha lastKey megegyezik, abba az irányba mozdul el, hiába van még egy korábbi billenytű lenyomva
     
-    else if (keys.s.pressed && lastKey === 's')   { 
+    else if (keys.s.pressed && lastKey === 's')   {
+        player.moving = true 
+        player.image = player.sprites.down
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
             // ütközés létrehozása - a képernyőn való pozíció szerint
@@ -130,7 +149,9 @@ function animate() {
     if (moving === true)
         movables.forEach((movable) => movable.position.y -= 3)}
 
-    else if (keys.a.pressed && lastKey === 'a')   { 
+    else if (keys.a.pressed && lastKey === 'a')   {
+        player.moving = true 
+        player.image = player.sprites.left
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
             // ütközés létrehozása - a képernyőn való pozíció szerint
@@ -142,7 +163,9 @@ function animate() {
     if (moving === true)
         movables.forEach((movable) => movable.position.x += 3)}
 
-    else if (keys.d.pressed && lastKey === 'd')   { 
+    else if (keys.d.pressed && lastKey === 'd')   {
+        player.moving = true 
+        player.image = player.sprites.right
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
             // ütközés létrehozása - a képernyőn való pozíció szerint
