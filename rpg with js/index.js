@@ -10,19 +10,7 @@ for (let i = 0; i < collision.length; i+=60) {   // kétdimenziós collision lis
     collisionMap.push(collision.slice(i,60 + i))
 }
 
-class Boundery {
-    static width = 64 // a sprite sheet mérete(16px) * 4, mert 400% zoomot alkalmaztunk
-    static height = 64
-    constructor({position}) {
-        this.position = position
-        this.width = 64
-        this.height = 64
-    }
-    draw() {
-        context.fillStyle = 'red'
-        context.fillRect(this.position.x,this.position.y, this.width,this.height) // collision megrajzolása, pirossal
-    }
-}
+
 
 const boundaries = []
 const offset = {
@@ -54,6 +42,9 @@ context.fillRect(0,0,canvas.width,canvas.height) // rect= rectengle, egy téglal
 const image = new Image()
 image.src = 'images/pokemon_like_game.png' //map
 
+const foreg_image = new Image()
+foreg_image.src = 'images/foreground.png' //map
+
 const playerImage = new Image()
 playerImage.src = 'images/playerKuroko180percent.png' //player
                                    
@@ -62,43 +53,16 @@ playerImage.src = 'images/playerKuroko180percent.png' //player
 
 // játékos mozgásának létrehozása
 
-class Sprite {    // dinamikus koordináta megadás class segítségével
-    constructor({position,velocity,image,frames = {max: 1}}) {
-        this.position = position
-        this.image = image
-        this.frame = frames
-    }
-    draw() {
-        context.drawImage(this.image,this.position.x,this.position.y) // a map kezdőpontjának beállítása. Ha 0,0, akkor a kép bal felső sarkától fog rajzolni 
-                                        // (tile-ból importálni a map-et megfelelő zoom méretben hozzá!!!)
-        context.drawImage(playerImage,
-            //képkivágás koordináták
-        
-            0, // eredet kép x koordinátája
-            0, // eredet kép y koordinátája
-            this.image.width/this.frame.max, // a kép kivágás szélességének a megadása - négy karakter egy sorban, mi egyet keresünk
-            this.image.height/this.frame.max,// a kép kivágás magasságának a megadása - négy karakter egy oszlopban, mi egyet keresünk
-            this.position.x,
-            this.position.y,
-            //aktuális koordináták
-
-            this.image.width/this.frame.max,
-            this.image.height/this.frame.max)
-                                        
-    }
-}
-        
-// (),
 // , // karakter megrajzolása. Gyorsabban töltődik be, mint a héttér, ezért egy betöltés alatt kell mindkettőnek lefutnia
 
-const player = new Sprite({
-    position: {
-        x:canvas.width/2-(231/4)/2,
-        y:canvas.height/2},
-    image: playerImage,
-    frame: {max:4}})
+
 
 const background = new Sprite({position: {x: offset.x,y: offset.y},image:image})   // háttér osztály állandósítása
+
+const foreground = new Sprite({position: {x: offset.x,y: offset.y},image:foreg_image})
+
+const player = new Sprite({position: {x: canvas.width/2-(231/4)/2, y: canvas.height/2},image: playerImage,frames:{max:4}})
+console.log(player)
 
 const keys = {            // billentyű kulcsok, alapértelmezetten false 
     w: {
@@ -116,34 +80,79 @@ const keys = {            // billentyű kulcsok, alapértelmezetten false
 }
 
 
-const testBoundary = new Boundery( {
-    position : {
-        x: 400,
-        y: 400
-    }
-})
+const movables = [background, ...boundaries,foreground] // az összes mozgó tárgy
 
-const movables = [background, testBoundary] // az összes mozgó tárgy
+function rectengleCollision({rectengle1,rectengle2}) {  // rectengle1 = player, rectengle2 = akadály
+    return (
+        rectengle1.position.x + rectengle1.width >= rectengle2.position.x &&    // true vagy flalse lesz 
+        rectengle1.position.x <= rectengle2.position.x + rectengle2.width &&
+        rectengle1.position.y + rectengle1.height >= rectengle2.position.y &&
+        rectengle1.position.y <= rectengle2.position.y + rectengle2.height
+    )
+}
 
 //animáció loop létrehozása
 
 function animate() {  
     window.requestAnimationFrame(animate) // recursive infinity loop létrehozása - végtelenül ismétli a benne lévő kódot(itt:képrajzolás)
     background.draw()
-    // boundaries.forEach(boundary => {
-    //     boundary.draw()
-    // })
-    testBoundary.draw()
+    boundaries.forEach((boundary) => {
+        boundary.draw()
+        
+    })  
+    
     player.draw()
-    // ütközés létrehozása
-    //if (player.position.x + player.width)
-
-
+    foreground.draw()
+    
     // karakter pozíció váltása, billentyű eseménykor
-    if (keys.w.pressed && lastKey === 'w')  { movables.forEach(movable => movable.position.y += 3)}  // ha lastKey megegyezik, abba az irányba mozdul el, hiába van még egy korábbi billenytű lenyomva
-    else if (keys.s.pressed && lastKey === 's')   { movables.forEach(movable => movable.position.y -= 3)}
-    else if (keys.a.pressed && lastKey === 'a')   { movables.forEach(movable => movable.position.x += 3)}
-    else if (keys.d.pressed && lastKey === 'd')   { movables.forEach(movable => movable.position.x -= 3)}
+    let moving = true
+    if (keys.w.pressed && lastKey === 'w')  {
+        for (let i = 0; i < boundaries.length; i++) {
+            const boundary = boundaries[i]
+            // ütközés létrehozása - a képernyőn való pozíció szerint
+            if (rectengleCollision({rectengle1: player, rectengle2: {...boundary, position: {x: boundary.position.x, y: boundary.position.y+3} }})) {
+                moving = false
+                break
+        }
+    } 
+    if (moving === true) {
+    movables.forEach((movable) => movable.position.y += 3)}} // ha lastKey megegyezik, abba az irányba mozdul el, hiába van még egy korábbi billenytű lenyomva
+    
+    else if (keys.s.pressed && lastKey === 's')   { 
+        for (let i = 0; i < boundaries.length; i++) {
+            const boundary = boundaries[i]
+            // ütközés létrehozása - a képernyőn való pozíció szerint
+            if (rectengleCollision({rectengle1: player, rectengle2: {...boundary, position: {x: boundary.position.x, y: boundary.position.y-3} }})) {
+                moving = false
+                break
+        }
+    } 
+    if (moving === true)
+        movables.forEach((movable) => movable.position.y -= 3)}
+
+    else if (keys.a.pressed && lastKey === 'a')   { 
+        for (let i = 0; i < boundaries.length; i++) {
+            const boundary = boundaries[i]
+            // ütközés létrehozása - a képernyőn való pozíció szerint
+            if (rectengleCollision({rectengle1: player, rectengle2: {...boundary, position: {x: boundary.position.x+3, y: boundary.position.y} }})) {
+                moving = false
+                break
+        }
+    } 
+    if (moving === true)
+        movables.forEach((movable) => movable.position.x += 3)}
+
+    else if (keys.d.pressed && lastKey === 'd')   { 
+        for (let i = 0; i < boundaries.length; i++) {
+            const boundary = boundaries[i]
+            // ütközés létrehozása - a képernyőn való pozíció szerint
+            if (rectengleCollision({rectengle1: player, rectengle2: {...boundary, position: {x: boundary.position.x-3, y: boundary.position.y} }})) {
+                moving = false
+                break
+        }
+    } 
+    if (moving === true)
+        movables.forEach((movable) => movable.position.x -= 3)}
 }
 
 animate()
