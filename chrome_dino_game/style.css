@@ -4,7 +4,7 @@ body {
 canvas {
     width: 800px;
     height: 700px;
-    background-color: purple;
+    background-color: rgb(55, 175, 175);
     position: absolute;
     top:50%;
     left: 50%;

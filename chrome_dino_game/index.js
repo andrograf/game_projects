@@ -29,14 +29,15 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
             });
         }
     }
+
     class Player { /*player osztály, billentyűkre való reagálás */
         constructor(gameWidth, gameHeight) {
             this.gameWidth = gameWidth;
             this.gameHeight = gameHeight;
             this.width = 42; /* karakter mérete*/
             this.height = 76; 
-            this.x = 0; /*karakter pozíciója*/
-            this.y = this.gameHeight - this.height;
+            this.x = 35; /*karakter pozíciója*/
+            this.y = (this.gameHeight-85) - this.height;
             this.image = document.getElementById('playerImage');
             this.frameX = 0; /* karakter tilesheet-en az első karakter pozíciója */
             this.frameY = 0; /* -||- */
@@ -56,7 +57,7 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
             if (input.keys.indexOf('ArrowRight') > -1){  /* ha ArrowRight lenyomva, elmozdul 5-tel jobbra folyamatosan */ 
                 this.speed = 5; 
             }
-            else if (input.keys.indexOf('ArrowLeft') > -1){ /* -||- */
+            else if (input.keys.indexOf('ArrowLeft') > -1 ){ /* -||- */
                 this.speed = -5; 
             }
             else if ((input.keys.indexOf(' ')  > -1) && this.onGround()){
@@ -94,9 +95,10 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
            
         }
     onGround() {
-        return this.y >= this.gameHeight - this.height;
+        return this.y >= (this.gameHeight-85) - this.height;
     }
     }
+
     class Background{
         constructor(gameWidth,gameHeight){
             this.gameWidth = gameWidth;
@@ -106,14 +108,64 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
             this.y = 0;
             this.width = 3200;
             this.height = 1008;
+            this.speed = 5; /* háttér mozgási sebessége*/
         }
         draw(context){
             // context.fillStyle = 'white'; /*player-t jelölő box kitöltése fehérrel*/
-            context.drawImage(this.image,this.x, this.y); /*karakter kirajzolása*/}
+            context.drawImage(this.image,this.x, this.y, this.width,this.height); /*karakter kirajzolása*/
+            context.drawImage(this.image,this.x + this.width, this.y, this.width,this.height); /* dupla kirajzolás, a folyamatos háttér illúzióért*/
+        }
+        update(){
+            this.x -= this.speed; /* kép elindul balra */
+            if (this.x < 0 - this.width) { /* újra kezdőpozíció, ha kép széle érintkezik a képernyő szélével*/
+                this.x = 0;
+            }
+        }
     }
-    class Enemy{
+
+    class flyingEnemy{           /* repülő szörnyek */
+        constructor(gameWidth,gameHeight){
+            this.gameWidth = gameWidth; /*canvas méretei */
+            this.gameHeight = gameHeight; 
+            this.width = 124; /* karakter méretei */
+            this.height = 128;
+            this.image = document.getElementById('enemyImage');
+            this.x = this.gameWidth;
+            this.y = (this.gameHeight-290) - this.height;
+            this.frameX = 0;
+            this.frameY = 0;
+        }
+        draw(context){
+            context.drawImage(this.image,this.frameX*this.width,this.frameY*this.height,this.width,this.height,this.x, this.y,this.width,this.height); /*karakter kirajzolása*/
+        
+        }
+        update(){
+            this.x--;
+        }
+    }
+    
+    class groundEnemy{     /* ogrék */
+        constructor(gameWidth,gameHeight,width,height,image){
+            this.gameWidth = gameWidth; /*canvas méretei */
+            this.gameHeight = gameHeight; 
+            this.width = width; /* karakter méretei */
+            this.height = height;
+            this.image = document.getElementById(image);
+            this.x = this.gameWidth;
+            this.y = (this.gameHeight-85) - this.height;
+            this.frameX = 0;
+            this.frameY = 0;
+        }
+        draw(context){
+            context.drawImage(this.image,this.frameX*this.width,this.frameY*this.height,this.width,this.height,this.x, this.y,this.width,this.height); /*karakter kirajzolása*/
+        
+        }
+        update(){
+            this.x--;
+        }
 
     }
+
     function HandlerEnemies(){  /*több enemy kezelése*/
 
     }
@@ -123,13 +175,23 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
 
     const input = new InputHAndler();
     const player = new Player(canvas.width,canvas.height);
-    const backgroud = new Background(canvas.width,canvas.height);
+    const background = new Background(canvas.width,canvas.height);
+    const enemyFly = new flyingEnemy(canvas.width,canvas.height);
+    const enemyGroundOgre = new groundEnemy(canvas.width,canvas.height,72,140,'enemyImage2');
+    const enemyGroundObsticle = new groundEnemy(canvas.width,canvas.height,64,64,'enemyImage3');
     
 
 
     function Animate(){ /*animációk*/
         context.clearRect(0,0,canvas.width,canvas.height);
-        backgroud.draw(context);
+        background.draw(context);
+        background.update();
+        enemyFly.draw(context);
+        enemyFly.update();
+        enemyGroundOgre.draw(context);
+        enemyGroundOgre.update();
+        enemyGroundObsticle.draw(context);
+        enemyGroundObsticle.update();
         player.draw(context);
         player.update(input);
         requestAnimationFrame(Animate) /*rekurzív függvény hívás, folyamatos lesz a mozgás*/
