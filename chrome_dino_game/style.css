@@ -1,0 +1,17 @@
+body {
+    background-color: black;
+}
+canvas {
+    width: 800px;
+    height: 700px;
+    background-color: purple;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: 5px solid red;
+}
+
+#playerImage, #backgroundImage, #enemyImage {
+    display: none;
+}
