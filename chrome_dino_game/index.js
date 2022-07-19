@@ -7,6 +7,7 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
     let enemiesGround = [];
     const enemiesFlyingSource = ['flyingEnemy0','flyingEnemy1','flyingEnemy2','flyingEnemy3'];
     const enemiesGroundSource = ['groundEnemy0','groundEnemy1','groundEnemy2','groundEnemy3','groundEnemy4'];
+    const backgroundLayers = ['layer0','layer1','layer2','layer3'];
 
     class InputHAndler{ /*billentyű parancsok kezelése*/
         constructor(){
@@ -104,15 +105,15 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
     }
 
     class Background{
-        constructor(gameWidth,gameHeight){
+        constructor(gameWidth,gameHeight, image, speed){
             this.gameWidth = gameWidth;
             this.gameHeight = gameHeight;
-            this.image = document.getElementById('backgroundImage');
+            this.image = document.getElementById(image);
             this.x = 0;
             this.y = 0;
             this.width = 3200;
             this.height = 1008;
-            this.speed = 5; /* háttér mozgási sebessége*/
+            this.speed = speed; /* háttér mozgási sebessége*/
         }
         draw(context){
             // context.fillStyle = 'white'; /*player-t jelölő box kitöltése fehérrel*/
@@ -238,7 +239,11 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
 
     const input = new InputHAndler();
     const player = new Player(canvas.width,canvas.height);
-    const background = new Background(canvas.width,canvas.height);
+    //const background = new Background(canvas.width,canvas.height);
+    const background1 = new Background(canvas.width,canvas.height,backgroundLayers[0],2);
+    const background2 = new Background(canvas.width,canvas.height,backgroundLayers[1], 3);
+    const background3 = new Background(canvas.width,canvas.height,backgroundLayers[2],4);
+    const background4 = new Background(canvas.width,canvas.height,backgroundLayers[3],5);
 
     
     let lastTime = 0;  /* enemy gyakorisága */
@@ -254,8 +259,16 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
         const deltaTime = timeStamp - lastTime;   /* timeStamp egy built-in változója az Animate függvények, automatikusan megkapja az értéket */
         lastTime = timeStamp; 
         context.clearRect(0,0,canvas.width,canvas.height);
-        background.draw(context);
-        background.update();
+        // background.draw(context);
+        // background.update();
+        background1.draw(context);
+        background1.update();
+        background2.draw(context);
+        background2.update();
+        background3.draw(context);
+        background3.update();
+        background4.draw(context);
+        background4.update();
         HandlerEnemies(deltaTime); /* delta time == framerate ~ 16.6 sec */
         player.draw(context);
         player.update(input);
