@@ -178,7 +178,9 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
             enemiesFly.push(new flyingEnemy(canvas.width,canvas.height)); /*új repülő enemy létrehozása */
             
             randomGroundEnemies = Math.floor(Math.random()* enemiesGroundSource.length);  /*új földi enemy létrehozása */
-            randomGroundEnemy = enemiesGroundSource[randomGroundEnemies];
+            randomGroundEnemy = enemiesGroundSource[randomGroundEnemies]; /* véletlenszerű enemy választás */
+
+            console.log(randomGroundEnemy);
             switch(randomGroundEnemies) {
                 case 0:
                     enemiesGround.push(new groundEnemy(canvas.width,canvas.height,64,64,randomGroundEnemy));
