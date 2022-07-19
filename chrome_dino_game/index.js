@@ -3,6 +3,8 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
     const context = canvas.getContext('2d'); /*2d-s mód indítása*/
     canvas.width = 800;      /*canvas méret beállítás*/
     canvas.height = 720;
+    let enemiesFly = [];
+    let enemiesGround = [];
 
     class InputHAndler{ /*billentyű parancsok kezelése*/
         constructor(){
@@ -130,7 +132,7 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
             this.width = 124; /* karakter méretei */
             this.height = 128;
             this.image = document.getElementById('enemyImage');
-            this.x = this.gameWidth;
+            this.x = this.gameWidth;  /* karakter pozíció a képernyőn */
             this.y = (this.gameHeight-290) - this.height;
             this.frameX = 0;
             this.frameY = 0;
@@ -151,13 +153,13 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
             this.width = width; /* karakter méretei */
             this.height = height;
             this.image = document.getElementById(image);
-            this.x = this.gameWidth;
+            this.x = this.gameWidth;  /* karakter pozíció a képernyőn */
             this.y = (this.gameHeight-85) - this.height;
             this.frameX = 0;
             this.frameY = 0;
         }
         draw(context){
-            context.drawImage(this.image,this.frameX*this.width,this.frameY*this.height,this.width,this.height,this.x, this.y,this.width,this.height); /*karakter kirajzolása*/
+            context.drawImage(this.image,this.frameX,this.frameY,this.width,this.height,this.x, this.y,this.width,this.height); /*karakter kirajzolása*/
         
         }
         update(){
@@ -167,6 +169,11 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
     }
 
     function HandlerEnemies(){  /*több enemy kezelése*/
+        enemiesFly.push(new flyingEnemy(canvas.width,canvas.height));
+        enemiesFly.forEach(enemy => {
+            enemiesFly.draw(context);
+            enemiesFly.update();
+        })
 
     }
     function DisplayStatus(){  /* játékos pontjainak kiírása, eredmény kiírása stb.*/
@@ -186,12 +193,6 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
         context.clearRect(0,0,canvas.width,canvas.height);
         background.draw(context);
         background.update();
-        enemyFly.draw(context);
-        enemyFly.update();
-        enemyGroundOgre.draw(context);
-        enemyGroundOgre.update();
-        enemyGroundObsticle.draw(context);
-        enemyGroundObsticle.update();
         player.draw(context);
         player.update(input);
         requestAnimationFrame(Animate) /*rekurzív függvény hívás, folyamatos lesz a mozgás*/
