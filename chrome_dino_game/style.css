@@ -12,6 +12,6 @@ canvas {
     border: 5px solid red;
 }
 
-#playerImage, #backgroundImage, #enemyImage {
+#playerImage, #backgroundImage, .enemies {
     display: none;
 }
