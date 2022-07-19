@@ -129,7 +129,7 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
     }
 
     class flyingEnemy{           /* repülő szörnyek */
-        constructor(gameWidth,gameHeight,width,height,image){
+        constructor(gameWidth,gameHeight,width,height,image,speed){
             this.gameWidth = gameWidth; /*canvas méretei */
             this.gameHeight = gameHeight; 
             this.width = width; /* karakter méretei */
@@ -139,7 +139,7 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
             this.y = (this.gameHeight-290) - this.height;
             this.frameX = 0;
             this.frameY = 0;
-            this.speed = 10;
+            this.speed = speed;
         }
         draw(context){
             context.drawImage(this.image,this.frameX*this.width,this.frameY*this.height,this.width,this.height,this.x, this.y,this.width,this.height); /*karakter kirajzolása*/
@@ -151,7 +151,7 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
     }
     
     class groundEnemy{     /* ogrék */
-        constructor(gameWidth,gameHeight,width,height,image){
+        constructor(gameWidth,gameHeight,width,height,image,speed){
             this.gameWidth = gameWidth; /*canvas méretei */
             this.gameHeight = gameHeight; 
             this.width = width; /* karakter méretei */
@@ -161,7 +161,7 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
             this.y = (this.gameHeight-85) - this.height;
             this.frameX = 0;
             this.frameY = 0;
-            this.speed = 7;
+            this.speed = speed;
         }
         draw(context){
             context.drawImage(this.image,this.frameX,this.frameY,this.width,this.height,this.x, this.y,this.width,this.height); /*karakter kirajzolása*/
@@ -176,48 +176,50 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
     /*több enemy kezelése*/
     function HandlerEnemies(deltaTime){  
         if (enemyTimer > enemyInterval+ randomEnemyInterval) {
-            /* véletlenszerű enemy választás */
+            randomFlyEnemySpeed = Math.random()*8 + 6;
+            /* véletlenszerű enemy választás a listából */
             randomFlyingEnemies = Math.floor(Math.random()* enemiesFlyingSource.length); 
             randomFlyingEnemy = enemiesFlyingSource[randomFlyingEnemies];  
             /*új repülő enemy létrehozása */
             switch(randomGroundEnemies) {
                 case 0:
-                    enemiesFly.push(new flyingEnemy(canvas.width,canvas.height,124,112,randomFlyingEnemy));
+                    enemiesFly.push(new flyingEnemy(canvas.width,canvas.height,124,112,randomFlyingEnemy,randomFlyEnemySpeed));
                     break;
                 case 1:
-                    enemiesFly.push(new flyingEnemy(canvas.width,canvas.height,124,124,randomFlyingEnemy));
+                    enemiesFly.push(new flyingEnemy(canvas.width,canvas.height,124,124,randomFlyingEnemy,randomFlyEnemySpeed));
                     break;
                 case 2:
-                    enemiesFly.push(new flyingEnemy(canvas.width,canvas.height,124,120,randomFlyingEnemy));
+                    enemiesFly.push(new flyingEnemy(canvas.width,canvas.height,124,120,randomFlyingEnemy,randomFlyEnemySpeed));
                     break;
                 case 3:
-                    enemiesFly.push(new flyingEnemy(canvas.width,canvas.height,124,128,randomFlyingEnemy));
+                    enemiesFly.push(new flyingEnemy(canvas.width,canvas.height,124,128,randomFlyingEnemy,randomFlyEnemySpeed));
                     break;
             }
-            /* véletlenszerű enemy választás */
+
+            /* véletlenszerű enemy választás a listából */
             randomGroundEnemies = Math.floor(Math.random()* enemiesGroundSource.length);  
             randomGroundEnemy = enemiesGroundSource[randomGroundEnemies]; 
+            randomGroundEnemySpeed = Math.random()*7 + 5;
             /*új földi enemy létrehozása */
-            console.log(randomGroundEnemy);
             switch(randomGroundEnemies) {
                 case 0:
-                    enemiesGround.push(new groundEnemy(canvas.width,canvas.height,64,64,randomGroundEnemy));
+                    enemiesGround.push(new groundEnemy(canvas.width,canvas.height,64,64,randomGroundEnemy,randomGroundEnemySpeed));
                     break;
                 case 1:
-                    enemiesGround.push(new groundEnemy(canvas.width,canvas.height,72,140,randomGroundEnemy));
+                    enemiesGround.push(new groundEnemy(canvas.width,canvas.height,72,104,randomGroundEnemy,randomGroundEnemySpeed));
                     break;
                 case 2:
-                    enemiesGround.push(new groundEnemy(canvas.width,canvas.height,72,128,randomGroundEnemy));
+                    enemiesGround.push(new groundEnemy(canvas.width,canvas.height,72,128,randomGroundEnemy,randomGroundEnemySpeed));
                     break;
                 case 3:
-                    enemiesGround.push(new groundEnemy(canvas.width,canvas.height,84,128,randomGroundEnemy));
+                    enemiesGround.push(new groundEnemy(canvas.width,canvas.height,84,128,randomGroundEnemy,randomGroundEnemySpeed));
                     break;
                 case 4:
-                    enemiesGround.push(new groundEnemy(canvas.width,canvas.height,80,128,randomGroundEnemy));
+                    enemiesGround.push(new groundEnemy(canvas.width,canvas.height,80,128,randomGroundEnemy,randomGroundEnemySpeed));
                     break;
             }
             
-            randomEnemyInterval = Math.random() *1000 + 500; /* random szám generálása, amitől az enemy feltűnése randomizált lesz */
+            randomEnemyInterval = Math.random() *1000 + 700; /* random szám generálása, amitől az enemy feltűnése randomizált lesz */
             enemyTimer = 0;
         }
         else {
@@ -254,6 +256,8 @@ window.addEventListener('load',function(){ /*névtelen függvény*/
     let randomGroundEnemy = '';
     let randomFlyingEnemies = Math.floor(Math.random()* enemiesFlyingSource.length);
     let randomFlyingEnemy = '';
+    let randomGroundEnemySpeed = Math.random()*8 + 6;
+    let randomFlyEnemySpeed = Math.random()*7 + 5;
 
     function Animate(timeStamp){ /*animációk*/
         const deltaTime = timeStamp - lastTime;   /* timeStamp egy built-in változója az Animate függvények, automatikusan megkapja az értéket */
