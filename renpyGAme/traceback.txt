@@ -1,0 +1,36 @@
+﻿I'm sorry, but an uncaught exception occurred.
+
+While running game code:
+  File "renpy/common/00keymap.rpy", line 421, in script
+    python hide:
+  File "renpy/common/00keymap.rpy", line 421, in <module>
+    python hide:
+  File "renpy/common/00keymap.rpy", line 440, in _execute_python_hide
+    renpy.save("_reload-1", "reload save game")
+AttributeError: 'NoneType' object has no attribute 'stores'
+
+-- Full Traceback ------------------------------------------------------------
+
+Full traceback:
+  File "renpy/common/00keymap.rpy", line 421, in script
+    python hide:
+  File "/usr/share/games/renpy/renpy/ast.py", line 914, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "/usr/share/games/renpy/renpy/python.py", line 2028, in py_exec_bytecode
+    exec bytecode in globals, locals
+  File "renpy/common/00keymap.rpy", line 421, in <module>
+    python hide:
+  File "renpy/common/00keymap.rpy", line 440, in _execute_python_hide
+    renpy.save("_reload-1", "reload save game")
+  File "/usr/share/games/renpy/renpy/loadsave.py", line 398, in save
+    roots = renpy.game.log.freeze(None)
+  File "/usr/share/games/renpy/renpy/python.py", line 1925, in freeze
+    self.complete(False)
+  File "/usr/share/games/renpy/renpy/python.py", line 1531, in complete
+    self.current.stores[name], self.current.delta_ebc[name] = sd.get_changes(begin)
+AttributeError: 'NoneType' object has no attribute 'stores'
+
+Linux-5.15.0-46-generic-x86_64-with-Ubuntu-20.04-focal
+Ren'Py 7.3.5.606
+ 
+Sun Aug 14 18:17:03 2022
