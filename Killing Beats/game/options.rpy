@@ -29,7 +29,12 @@ define config.version = "1.0"
 ## Text that is placed on the game's about screen. Place the text between the
 ## triple-quotes, and leave a blank line between paragraphs.
 
-define gui.about = _p("""
+define gui.about = _p("""Killing beats is a fan-made visual novel game.\n It's made to contribute to AkaKuro fandom, as Akashi and Kuroko means a lot to the developer.\n
+In the game, you will find many other ships as well, but the game main couple is still AkaKuro.\n
+The every characters belongs to Tadatoshi Fujimaki sensei, the developer don't claim them.\n
+If you like this work and want to like more like this, you can support by buy a coffee for the developer. Click on the game logo to do it.\n
+\n
+More about the program: 
 """)
 
 
@@ -150,6 +155,14 @@ define config.save_directory = "KillingBeats-1660800268"
 ## The icon displayed on the taskbar or dock.
 
 define config.window_icon = "gui/window_icon.png"
+
+
+## Custom Mouse configuration ######################################################
+define config.mouse = {'default': [("gui/cursor_idle.tiff",0.0,0.0)]}
+
+# define config.mouse = { }    
+# config.mouse["default"] = [("gui/cursor_idle.tiff", 0.0, 0.0),]
+
 
 
 ## Build configuration #########################################################

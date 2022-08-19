@@ -11,7 +11,52 @@ init offset = -2
 init python:
     gui.init(1600, 900)
 
+###############################################################################
+# mouse
+###############################################################################
+# define config.mouse = { }    
+#     config.mouse["default"] = [
+#         ("gui/cursor_idle.tiff", 0.0, 0.0),]
 
+init 1 python:
+    # def change_cursor(type="default"):
+    #     persistent.mouse = type
+    #     if type == "default":
+    #         setattr(config, "mouse", None)
+    #     elif type == "1":
+    #         setattr(config, "mouse", {"default": [("gui/cursor_idle.tiff", 0, 0)]})
+    #     elif type == "hovered":
+    #         setattr(config, "mouse", {"default": [("gui/cursor_hover.tiff", 0, 0)]})
+            
+    # if not hasattr(persistent, "mouse"):
+    #     change_cursor()
+    # else:
+    #     change_cursor(persistent.mouse)
+    def change_cursor(type="default"):
+        persistent.mouse = type
+        if config.mouse == {"default": [("gui/cursor_idle.tiff", 0, 0)]}:
+            setattr(config, "mouse", {"default": [("gui/cursor_hover.tiff", 0, 0)]})
+        else:
+            setattr(config, "mouse", {"default": [("gui/cursor_idle.tiff", 0, 0)]})
+            
+            
+    if not hasattr(persistent, "mouse"):
+        change_cursor()
+    else:
+        change_cursor(persistent.mouse)
+
+# The game starts here.
+# label start:
+#     $ change_cursor()
+#     "Normal Cursor"
+    
+#     $ change_cursor("1")
+#     "Cursor 1"
+    
+#     $ change_cursor("2")
+#     "Cursor 2"
+    
+#     return
 
 ################################################################################
 ## GUI Configuration Variables
@@ -86,7 +131,7 @@ define gui.title_text_size = 63
 
 ## The images used for the main and game menus.
 define gui.main_menu_background = "gui/main_menu.tiff"
-define gui.game_menu_background = "gui/game_menu.png"
+define gui.game_menu_background = "gui/game_menu.tiff"
 
 
 ## Dialogue ####################################################################
@@ -202,14 +247,14 @@ define gui.quick_button_text_selected_color = gui.accent_color
 ##
 ## Choice buttons are used in the in-game menus.
 
-define gui.choice_button_width = 988
-define gui.choice_button_height = None
+define gui.choice_button_width = 700 #790
+define gui.choice_button_height = 161 #None
 define gui.choice_button_tile = False
-define gui.choice_button_borders = Borders(125, 7, 125, 7)
+define gui.choice_button_borders = Borders(100,60,100,5)#Borders(125, 7, 125, 7)
 define gui.choice_button_text_font = gui.text_font
 define gui.choice_button_text_size = gui.text_size
 define gui.choice_button_text_xalign = 0.5
-define gui.choice_button_text_idle_color = "#cccccc"
+define gui.choice_button_text_idle_color = "#ffffff"#"#cccccc"
 define gui.choice_button_text_hover_color = "#ffffff"
 define gui.choice_button_text_insensitive_color = "#444444"
 

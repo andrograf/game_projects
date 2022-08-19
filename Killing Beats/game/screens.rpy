@@ -290,38 +290,47 @@ style quick_button_text:
 ## to other menus, and to start the game.
 
 screen navigation():
-
+   
     fixed:
         style_prefix "navigation"
+        
+        
 
         #xpos gui.navigation_xpos
         #yalign 0.5
 
         spacing gui.navigation_spacing
 
+      
+
+        #$ Function(change_cursor, "hovered") #config.mouse = {'default':[("gui/cursor_idle.tiff",0.0,0.0)]}
+
         if main_menu:
+
             #url logo
-            imagebutton auto "gui/mm_logo_%s.tiff" xpos 1258 ypos 556 focus_mask True action OpenURL("https://www.buymeacoffee.com/gimmeakakuro")
+            imagebutton auto "gui/mm_logo_%s.tiff" xpos 1258 ypos 556 focus_mask True action [OpenURL("https://www.buymeacoffee.com/gimmeakakuro")] hovered [ Play("sound","audio/click.mp3"),Function(change_cursor) ]
+
+            
 
             #textbutton _("Start") action Start()
-            imagebutton auto "gui/mm_start_%s.tiff" xpos 605 ypos 195 focus_mask True action Start() hovered [ Play("sound","audio/click.mp3") ]#xpos = originXpos-3px(hoverBorder), ypos = originYpos - 3px(hoverBorder)
+            imagebutton auto "gui/mm_start_%s.tiff" xpos 605 ypos 195 focus_mask True action [Function(change_cursor,'1'),Start()] hovered [ Play("sound","audio/click.mp3"),Function(change_cursor) ]#xpos = originXpos-3px(hoverBorder), ypos = originYpos - 3px(hoverBorder)
             
         
-
+            $ _history = True
             #textbutton _("History") action ShowMenu("history")
-            imagebutton auto "gui/mm_history_%s.tiff" xpos 545 ypos 25 focus_mask True action ShowMenu("history") hovered [ Play("sound","audio/click.mp3") ]#xpos = originXpos-3px(hoverBorder), ypos = originYpos - 3px(hoverBorder)
+            imagebutton auto "gui/mm_history_%s.tiff" xpos 545 ypos 25 focus_mask True action [ShowMenu("history"),Function(change_cursor,'1')] hovered [ Play("sound","audio/click.mp3"),Function(change_cursor) ]#xpos = originXpos-3px(hoverBorder), ypos = originYpos - 3px(hoverBorder)
 
 
             #textbutton _("Save") action ShowMenu("save")
             
 
         #textbutton _("Load") action ShowMenu("load")
-        imagebutton auto "gui/mm_save_%s.tiff" xpos 300 ypos 28 focus_mask True action ShowMenu("load") hovered [ Play("sound","audio/click.mp3") ]#xpos = originXpos-3px(hoverBorder), ypos = originYpos - 3px(hoverBorder)
+        imagebutton auto "gui/mm_save_%s.tiff" xpos 300 ypos 28 focus_mask True action [ShowMenu("load"),Function(change_cursor,'1')] hovered [ Play("sound","audio/click.mp3"),Function(change_cursor) ]#xpos = originXpos-3px(hoverBorder), ypos = originYpos - 3px(hoverBorder)
 
 
         #textbutton _("Preferences") action ShowMenu("preferences")
-        imagebutton auto "gui/mm_settings_%s.tiff" xpos 1068 ypos 224 focus_mask True action ShowMenu("preferences") hovered [ Play("sound","audio/click.mp3") ]#xpos = originXpos-3px(hoverBorder), ypos = originYpos + 3px(hoverBorder)
-
+        imagebutton auto "gui/mm_settings_%s.tiff" xpos 1068 ypos 224 focus_mask True action [ShowMenu("preferences"),Function(change_cursor,'1') ] hovered [ Play("sound","audio/click.mp3"),Function(change_cursor) ] #xpos = originXpos-3px(hoverBorder), ypos = originYpos + 3px(hoverBorder)
+        
 
         if _in_replay:
 
@@ -333,14 +342,14 @@ screen navigation():
             textbutton _("Main Menu") action MainMenu()
 
         #textbutton _("About") action ShowMenu("about")
-        imagebutton auto "gui/mm_about_%s.tiff" xpos 915 ypos 14 focus_mask True action ShowMenu("about") hovered [ Play("sound","audio/click.mp3") ]#xpos = originXpos-3px(hoverBorder), ypos = originYpos + 3px(hoverBorder)
+        imagebutton auto "gui/mm_about_%s.tiff" xpos 915 ypos 14 focus_mask True action [ShowMenu("about"),Function(change_cursor,'1') ] hovered [ Play("sound","audio/click.mp3"),Function(change_cursor) ]#xpos = originXpos-3px(hoverBorder), ypos = originYpos + 3px(hoverBorder)
 
 
         if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
             ## Help isn't necessary or relevant to mobile devices.
-            #textbutton _("Help") action ShowMenu("help")
-            imagebutton auto "gui/mm_help_%s.tiff" xpos 258 ypos 380 focus_mask True action ShowMenu("help") hovered [ Play("sound","audio/click.mp3") ]#xpos = originXpos-3px(hoverBorder), ypos = originYpos + 3px(hoverBorder)
+            #textbutton _("Help") action [("help")
+            imagebutton auto "gui/mm_help_%s.tiff" xpos 258 ypos 380 focus_mask True action [ShowMenu("help"),Function(change_cursor,'1') ] hovered [ Play("sound","audio/click.mp3"),Function(change_cursor) ]#xpos = originXpos-3px(hoverBorder), ypos = originYpos + 3px(hoverBorder)
 
 
         if renpy.variant("pc"):
@@ -348,7 +357,7 @@ screen navigation():
             ## The quit button is banned on iOS and unnecessary on Android and
             ## Web.
             #textbutton _("Quit") action Quit(confirm=not main_menu)
-            imagebutton auto "gui/mm_exit_%s.tiff" xpos 800 ypos 163 focus_mask True action Quit(confirm=not main_menu) hovered [ Play("sound","audio/click.mp3") ]#xpos = originXpos-3px(hoverBorder), ypos = originYpos + 3px(hoverBorder)
+            imagebutton auto "gui/mm_exit_%s.tiff" xpos 800 ypos 163 focus_mask True action [Quit(confirm=not main_menu),Function(change_cursor,'1') ] hovered [ Play("sound","audio/click.mp3"),Function(change_cursor) ]#xpos = originXpos-3px(hoverBorder), ypos = originYpos + 3px(hoverBorder)
 
 screen subNavigation():
     vbox:
@@ -361,7 +370,8 @@ screen subNavigation():
 
         if main_menu:
 
-            textbutton _("Bite the bullet") action Start()
+            textbutton _("") action Start()
+
 
         else:
 
@@ -369,30 +379,39 @@ screen subNavigation():
 
             textbutton _("Papi") action ShowMenu("save")
 
-        textbutton _("White Lady") action ShowMenu("load")
+            textbutton _("White Lady") action ShowMenu("load")
 
-        textbutton _("Keep it trill") action ShowMenu("preferences")
+            textbutton _("Keep it trill") action ShowMenu("preferences")
 
         if _in_replay:
 
             textbutton _("End Replay") action EndReplay(confirm=True)
 
         elif not main_menu:
+            
+            #textbutton _("Abt") action ShowMenu("about")
 
-            textbutton _("Full Menu") action MainMenu()
+            textbutton _("411") action ShowMenu("help")
+            textbutton _("") action ShowMenu("help")
+            textbutton _("")
+            textbutton _("")
+            textbutton _("Full Menu") action [MainMenu()]
 
-        textbutton _("Abt") action ShowMenu("about")
+            
 
         if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
             ## Help isn't necessary or relevant to mobile devices.
-            textbutton _("411") action ShowMenu("help")
+            
+            textbutton _("")
+            
 
         if renpy.variant("pc"):
 
             ## The quit button is banned on iOS and unnecessary on Android and
             ## Web.
-            textbutton _("Beetlejuice") action Quit(confirm=not main_menu)
+            
+            textbutton _("") action Quit(confirm=not main_menu)
 
 style navigation_button is gui_button
 style navigation_button_text is gui_button_text
