@@ -425,6 +425,7 @@ define gui.nvl_name_xpos = 538
 define gui.nvl_name_ypos = 0
 define gui.nvl_name_width = 188
 define gui.nvl_name_xalign = 1.0
+define gui.nvl_name_color = '#000'
 
 ## The position, width, and alignment of the dialogue text.
 define gui.nvl_text_xpos = 563

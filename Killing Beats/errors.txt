@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 147: choice menuitem expects a non-empty block.
-    "I'd like that, too.":
-                          ^
+File "game/PhoneTexting.rpy", line 93: u'size' is not a keyword argument or valid child for the for statement.
+    size 23
+        ^
 
 Ren'Py Version: Ren'Py 7.3.5.606
-Sun Aug 21 22:48:45 2022
+Mon Aug 22 09:09:51 2022

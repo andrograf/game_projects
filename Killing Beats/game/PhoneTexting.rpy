@@ -3,6 +3,10 @@
 define nvl_mode = "phone"  ##Allow the NVL mode to become a phone conversation
 define MC_Name = "Kuroko" ##The name of the main character, used to place them on the screen
 define akashiKun = "Akashi"
+define kiseKun = "Kise"
+define midorimaKun = "Midorima"
+define aomineKun = "Aomine"
+define murasakibaraKun = "Murasakibara"
 
 init -1 python:
     phone_position_x = 0.5 # center: 0.5, left: 0.3, right: 0.8
@@ -83,17 +87,27 @@ screen nvl_phonetext(dialogue):
                     xsize 350
                     text_align 0.5
                     italic True
-                    size 28
+                    size 23
                     slow_cps False
                     id d.what_id
                     if d.current:
                         at message_narrator
         else:
             if d.who == MC_Name:
+                
                 $ message_frame = "phone_send_frame.png"
-            else:
+            elif d.who == akashiKun:
                 $ message_frame = "phone_received_frame.png"
-
+            elif d.who == kiseKun:
+                $ message_frame = "phone_send_frame01.png"
+            elif d.who == aomineKun:
+                        $ message_frame = "phone_send_frame02.png"
+            elif d.who == midorimaKun:
+                        $ message_frame = "phone_send_frame03.png"
+            elif d.who == murasakibaraKun:
+                        $ message_frame = "phone_send_frame04.png"
+            else:
+                $ message_frame = "phone_received_frame00.png"
             hbox:
                 spacing 10
                 if d.who == MC_Name:
@@ -103,6 +117,14 @@ screen nvl_phonetext(dialogue):
                 if previous_d_who != d.who:
                     if d.who == MC_Name:
                         $ message_icon = "phone_send_icon.png"
+                    elif d.who == kiseKun:
+                        $ message_icon = "phone_received_icon01.png"
+                    elif d.who == aomineKun:
+                        $ message_icon = "phone_received_icon02.png"
+                    elif d.who == midorimaKun:
+                        $ message_icon = "phone_received_icon03.png"
+                    elif d.who == murasakibaraKun:
+                        $ message_icon = "phone_received_icon04.png"
                     else:
                         $ message_icon = "phone_received_icon.png"
 
@@ -138,7 +160,7 @@ screen nvl_phonetext(dialogue):
                             
 
                             if d.who == MC_Name :
-                                color "#FFF"
+                                color "#FFF"  #text color
                                 text_align 1.0
                                 xpos -440 #-580
                             elif d.who == nvl_narrator:
@@ -170,5 +192,9 @@ style phoneFrame_viewport:
 style phoneFrame_vbox:
     spacing 10
     xfill True
+
+style akashiKun:
+    color "#000"
+    
 
 
