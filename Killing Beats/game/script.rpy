@@ -33,9 +33,30 @@ label start:
        
         scene cityDay
         with fade
-        
-        play music streetNoise  
-        
+        show momoi
+        momoi "hi!"
+        #play music streetNoise  
+        nvl_narrator "You accepted Akashi's inviting.Now you can talk.\n"
+        ki_nvl "hey guys!"
+        ao_nvl "Sup"
+        mo_nvl "Tetsu-kun!<3"
+        ku_nvl "Good Morning"
+        mi_nvl "you both are so annoying, nanodayo"
+        mu_nvl "does some1 have any candy?"
+        ku_nvl "Akashi-kun, the afternoon was really amazing. Thank you for the walk." # ku_nvl - main character
+        a_nvl "You don't need to be so formal." # a_nvl - second character
+        a_nvl "I enjoyed our date, as well. We should repeat it soon."
+        #ku_nvl "?!"
+        #ku_nvl "....."
+        menu:
+            "I'd like that, too.":
+                ku_nvl "I'd like that, too."
+                a_nvl "Perfect. We'll talk later about the details."
+                a_nvl "Sleep tight, Tetsuya."
+            ".....":
+                ku_nvl "....."
+                a_nvl "I guess you did not think it was a date, Tetsuya."
+                a_nvl "Nevermind, next time I'll be sure to notice you about."
         
         "The town was as busy as always. The people run whenever they had work to do, men in suits walked down the main street of Tokyo trying to not be late from work."
         "Young ladies in maid costum tried to invite the pedestrians into the coffe shops for a steaming beverage with more or less success."

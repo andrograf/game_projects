@@ -7,6 +7,7 @@ define kiseKun = "Kise"
 define midorimaKun = "Midorima"
 define aomineKun = "Aomine"
 define murasakibaraKun = "Murasakibara"
+define momoiSan = "Satsuki"
 
 init -1 python:
     phone_position_x = 0.5 # center: 0.5, left: 0.3, right: 0.8
@@ -101,11 +102,13 @@ screen nvl_phonetext(dialogue):
             elif d.who == kiseKun:
                 $ message_frame = "phone_send_frame01.png"
             elif d.who == aomineKun:
-                        $ message_frame = "phone_send_frame02.png"
+                $ message_frame = "phone_send_frame02.png"
             elif d.who == midorimaKun:
-                        $ message_frame = "phone_send_frame03.png"
+                $ message_frame = "phone_send_frame03.png"
             elif d.who == murasakibaraKun:
-                        $ message_frame = "phone_send_frame04.png"
+                $ message_frame = "phone_send_frame04.png"
+            elif d.who == momoiSan:
+                $ message_frame = "phone_send_frame05.png"
             else:
                 $ message_frame = "phone_received_frame00.png"
             hbox:
@@ -117,6 +120,8 @@ screen nvl_phonetext(dialogue):
                 if previous_d_who != d.who:
                     if d.who == MC_Name:
                         $ message_icon = "phone_send_icon.png"
+                    elif d.who == akashiKun:
+                        $ message_icon = "phone_received_icon.png"
                     elif d.who == kiseKun:
                         $ message_icon = "phone_received_icon01.png"
                     elif d.who == aomineKun:
@@ -125,8 +130,10 @@ screen nvl_phonetext(dialogue):
                         $ message_icon = "phone_received_icon03.png"
                     elif d.who == murasakibaraKun:
                         $ message_icon = "phone_received_icon04.png"
+                    elif d.who == momoiSan:
+                        $ message_icon = "phone_received_icon05.png"
                     else:
-                        $ message_icon = "phone_received_icon.png"
+                        $ message_icon = "phone_received_icon00.png"
 
                     add message_icon:
                         if d.current:

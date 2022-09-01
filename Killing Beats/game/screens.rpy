@@ -308,7 +308,8 @@ screen navigation():
         if main_menu:
 
             #url logo
-            imagebutton auto "gui/mm_logo_%s.tiff" xpos 1258 ypos 556 focus_mask True action [OpenURL("https://www.buymeacoffee.com/gimmeakakuro")] hovered [ Play("sound","audio/click.mp3"),Function(change_cursor) ]
+            #imagebutton auto "gui/mm_logo_%s.tiff" xpos 1258 ypos 556 focus_mask True action [OpenURL("https://www.buymeacoffee.com/gimmeakakuro")] hovered [ Play("sound","audio/click.mp3"),Function(change_cursor) ]
+            imagebutton auto "gui/mm_logo_%s.tiff" xpos 1258 ypos 556 focus_mask True action [OpenURL("https://www.patreon.com/gimmeakakuro")] hovered [ Play("sound","audio/click.mp3"),Function(change_cursor) ]
 
             
 

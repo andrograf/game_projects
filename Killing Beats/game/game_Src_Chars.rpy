@@ -5,6 +5,7 @@ define mi_nvl = Character('Midorima',kind=nvl,callback=Phone_ReceiveSound,color=
 define mu_nvl = Character("Murasakibara",kind=nvl,callback=Phone_ReceiveSound,color="#9370DB")
 define ao_nvl = Character('Aomine',kind=nvl,callback=Phone_ReceiveSound,color="#191970")
 define ki_nvl = Character('Kise',kind=nvl,callback=Phone_ReceiveSound,color="#FFD700")
+define mo_nvl = Character('Satsuki',kind=nvl,callback=Phone_ReceiveSound,color="#ec5aa0")
 
 define config.adv_nvl_transition = None
 define config.nvl_adv_transition = Dissolve(0.3)
@@ -22,6 +23,7 @@ define badGuy2 = Character('?')
 define akashi = Character("Akashi",color="#DC143C")
 define hanamiya = Character("Hanamiya", color="#22564a")
 define haizaki = Character("Haizaki", color="#e0e4e7")
+define momoi = Character("Satsuki", color="ec5aa0")
 #define kuroko = Character("Kuroko Tetsuya",color="#87CEEB")
 #define akashi = Character("Akashi Seijuro",color="#DC143C")
 #define midorima = Character('Midorima Shintarou',color="#228B22")
@@ -47,6 +49,7 @@ image kagami right = "kagamiR.tiff"
 image kise = "kiseL.tiff"
 image aomine = "aomineL.tiff"
 image midorima = "midorimaL.tiff"
+image momoi = "momoiNoLogoR.tiff"
 
 # show kagami at left
 # show murasakibara at left
