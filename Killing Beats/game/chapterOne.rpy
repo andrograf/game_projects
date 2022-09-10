@@ -17,7 +17,8 @@ label chapterOne:
     "It was not a great way for doing a freat impression."
 
     # This shows a character sprite.
-    show kuroko neutral right with dissolve
+    #show kuroko neutral right with dissolve
+    show kurokoSmiling left with dissolve
     
 
     youngman "Hahh...."

@@ -33,7 +33,8 @@ label start:
        
         scene cityDay
         with fade
-        show momoi
+        show momoi at left
+        show kurokoSmiling left at right with dissolve
         momoi "hi!"
         #play music streetNoise  
         nvl_narrator "You accepted Akashi's inviting.Now you can talk.\n"
